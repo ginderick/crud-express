@@ -21,7 +21,11 @@ export default class UsersService {
     ];
   }
   public async getUsers() {
-    console.log(this.usersList);
     return this.usersList;
+  }
+
+  public async addUser(user: string) {
+    this.usersList.push(user);
+    return;
   }
 }
