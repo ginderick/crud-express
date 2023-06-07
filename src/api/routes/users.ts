@@ -1,3 +1,4 @@
+import UsersService from '../../services/users';
 import { NextFunction, Request, Response, Router } from 'express';
 
 const route = Router();
@@ -7,7 +8,9 @@ const users = (app: Router) => {
 
   route.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-      return res.status(200).json({ message: 'Hello world' });
+      const usersService = new UsersService();
+      const users = await usersService.getUsers();
+      return res.status(200).json(users);
     } catch (error) {}
   });
 };
