@@ -60,4 +60,8 @@ export class InMemoryDatabase {
     const result = this.database.find((user) => user.id === id);
     return result;
   }
+
+  public clear() {
+    this.database = [];
+  }
 }
