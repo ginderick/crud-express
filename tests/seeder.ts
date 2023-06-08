@@ -18,3 +18,14 @@ export const seeder = async () => {
     console.error('Seeding failed:', error);
   }
 };
+
+export const clearData = async () => {
+  try {
+    const db = InMemoryDatabase.getInstance();
+    db.clear();
+
+    console.log('Clearing complete.');
+  } catch (error) {
+    console.error('Clearing failed:', error);
+  }
+};
