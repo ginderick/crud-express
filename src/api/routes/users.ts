@@ -39,6 +39,22 @@ const users = (app: Router) => {
       }
     } catch (error) {}
   });
+
+  route.patch(
+    '/:id',
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const id = +req.params.id!;
+        const userBody = req.body as User;
+        const user = await usersService.updateUser(id, userBody);
+        if (user) {
+          return res.status(200).json(user);
+        } else {
+          return res.status(404).json({ message: 'User not found' });
+        }
+      } catch (error) {}
+    }
+  );
 };
 
 export default users;

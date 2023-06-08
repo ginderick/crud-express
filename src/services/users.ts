@@ -18,4 +18,10 @@ export default class UsersService {
     const user = await database.getUser(id);
     return user;
   }
+
+  public async updateUser(id: number, data: any) {
+    const database = InMemoryDatabase.getInstance();
+    const user = await database.update(id, data);
+    return user;
+  }
 }
