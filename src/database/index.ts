@@ -21,8 +21,8 @@ export class InMemoryDatabase {
     return this.database;
   }
 
-  public async getUser(name: string) {
-    const user = this.findEntryByName(name);
+  public async getUser(id: number) {
+    const user = this.findEntryById(id);
     return user;
   }
 
@@ -56,5 +56,9 @@ export class InMemoryDatabase {
 
   private findIndexById(id: number): number {
     return this.database.findIndex((entry) => entry.id === id);
+  }
+
+  private findEntryById(id: number): UserDatabase | undefined {
+    return this.database.find((user) => user.id === id);
   }
 }
