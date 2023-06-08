@@ -69,7 +69,6 @@ const users = (app: Router) => {
         const user = await usersService.updateUser(id, userBody);
         if (user) {
           const result = res.status(200).json(user);
-          console.log(result);
           return result;
         } else {
           return res
