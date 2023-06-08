@@ -32,13 +32,14 @@ export class InMemoryDatabase {
     return user;
   }
 
-  public update(id: number, user: User): void {
+  public async update(id: number, user: User) {
     const index = this.findIndexById(id);
-    if (index) {
+
+    if (index !== -1) {
       this.database[index] = { id, ...user };
-    } else {
-      throw new Error(`Entry with ID '${id}' does not exist in the database.`);
+      return this.database[index];
     }
+    return;
   }
 
   public delete(id: number): void {
@@ -59,6 +60,7 @@ export class InMemoryDatabase {
   }
 
   private findEntryById(id: number): UserDatabase | undefined {
-    return this.database.find((user) => user.id === id);
+    const result = this.database.find((user) => user.id === id);
+    return result;
   }
 }
