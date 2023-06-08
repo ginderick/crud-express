@@ -13,8 +13,9 @@ export default class UsersService {
     return userResult;
   }
 
-  public async getUser() {
+  public async getUser(id: number) {
     const database = InMemoryDatabase.getInstance();
-    return database.getUser('Gin Derick');
+    const user = await database.getUser(id);
+    return user;
   }
 }
