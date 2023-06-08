@@ -1,17 +1,16 @@
 import UsersService from '../../services/users';
 import { NextFunction, Request, Response, Router } from 'express';
 import { User } from '../../types';
+import Container from 'typedi';
 
 const route = Router();
-
-// Create an instance of the UsersService class to persist in-memory store
-const usersService = new UsersService();
 
 const users = (app: Router) => {
   app.use('/users', route);
 
   route.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const usersService = Container.get(UsersService);
       const users = await usersService.getUsers();
       return res.status(200).json(users);
     } catch (error) {}
@@ -20,6 +19,7 @@ const users = (app: Router) => {
   route.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = req.body as User;
+      const usersService = Container.get(UsersService);
       await usersService.addUser(user);
       return res
         .status(201)
@@ -30,6 +30,7 @@ const users = (app: Router) => {
   route.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = +req.params.id!;
+      const usersService = Container.get(UsersService);
       const user = await usersService.getUser(id);
 
       if (user) {
@@ -46,6 +47,7 @@ const users = (app: Router) => {
       try {
         const id = +req.params.id!;
         const userBody = req.body as User;
+        const usersService = Container.get(UsersService);
         const user = await usersService.updateUser(id, userBody);
         if (user) {
           return res.status(200).json(user);
@@ -61,6 +63,7 @@ const users = (app: Router) => {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const id = +req.params.id!;
+        const usersService = Container.get(UsersService);
         const user = await usersService.deleteUser(id);
         if (user) {
           return res.status(204).json({ message: 'User successfully deleted' });
