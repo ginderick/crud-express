@@ -42,17 +42,14 @@ export class InMemoryDatabase {
     return;
   }
 
-  public delete(id: number): void {
+  public async delete(id: number) {
     const index = this.findIndexById(id);
     if (index !== -1) {
-      this.database.splice(index, 1);
+      const result = this.database.splice(index, 1);
+      return result;
     } else {
-      throw new Error(`Entry with ID '${id}' does not exist in the database.`);
+      return;
     }
-  }
-
-  private findEntryByName(name: string): UserDatabase | undefined {
-    return this.database.find((user) => user.name === name);
   }
 
   private findIndexById(id: number): number {
