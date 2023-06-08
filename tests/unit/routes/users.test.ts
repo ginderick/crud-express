@@ -10,12 +10,12 @@ beforeAll(async () => {
   await require('../../../src/loaders').default({ expressApp: app });
   server = app.listen(0);
 
-  //seed users database
+  //clear database first before seeding users
+  await clearData();
   await seeder();
 });
 
 afterAll(async () => {
-  await clearData();
   await server.close();
 });
 
@@ -44,6 +44,15 @@ describe('POST /users', () => {
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty('message');
   });
+  it('should return status 422 when payload is invalid', async () => {
+    const user = {
+      name: 123,
+      age: '22',
+      email: 123,
+    };
+    const res = await request(server).post('/users').send(user);
+    expect(res.status).toBe(422);
+  });
 });
 
 describe('PATCH /users/1', () => {
@@ -51,11 +60,24 @@ describe('PATCH /users/1', () => {
     const res = await request(server).patch('/users/1').send(user);
     expect(res.status).toBe(200);
   });
+  it('should return status 422 when payload is invalid', async () => {
+    const user = {
+      name: 123,
+      age: '22',
+      email: 123,
+    };
+    const res = await request(server).patch('/users/1').send(user);
+    expect(res.status).toBe(422);
+  });
 });
 
 describe('DELETE /users/1', () => {
   it('should return status code 204 for successfully a deleting user with id 1', async () => {
     const res = await request(server).delete('/users/1');
     expect(res.status).toBe(204);
+  });
+  it('should return status 404 when user is not found', async () => {
+    const res = await request(server).delete('/users/4');
+    expect(res.status).toBe(404);
   });
 });
