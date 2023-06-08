@@ -12,11 +12,17 @@ $ npm install
 $ npm run dev
 ```
 
+> Don't forget to include a .env file
+
 ## Testing
 
 ```
 $ npm run test
 ```
+
+## Postman Collection
+
+Postman collection is available in the /docs folder
 
 ## Built With
 
