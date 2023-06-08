@@ -55,6 +55,21 @@ const users = (app: Router) => {
       } catch (error) {}
     }
   );
+
+  route.delete(
+    '/:id',
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const id = +req.params.id!;
+        const user = await usersService.deleteUser(id);
+        if (user) {
+          return res.status(204).json({ message: 'User successfully deleted' });
+        } else {
+          return res.status(404).json({ message: 'User not found' });
+        }
+      } catch (error) {}
+    }
+  );
 };
 
 export default users;
