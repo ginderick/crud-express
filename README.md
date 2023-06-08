@@ -12,7 +12,7 @@ $ npm install
 $ npm run dev
 ```
 
-> Don't forget to include the have a .env file for the port
+> Don't forget to include a .env file
 
 ## Testing
 
