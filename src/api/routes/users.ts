@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import Container from 'typedi';
+import { USER_NOT_FOUND } from '../../errors';
 import { UserSchema } from '../../schema/UserScehma';
 import UsersService from '../../services/users';
 import { User } from '../../types';
@@ -48,7 +49,7 @@ const users = (app: Router) => {
       if (user) {
         return res.status(200).json(user);
       } else {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(USER_NOT_FOUND.statusCode).json(USER_NOT_FOUND.body);
       }
     } catch (error) {
       return next(error);
@@ -67,9 +68,13 @@ const users = (app: Router) => {
         const usersService = Container.get(UsersService);
         const user = await usersService.updateUser(id, userBody);
         if (user) {
-          return res.status(200).json(user);
+          const result = res.status(200).json(user);
+          console.log(result);
+          return result;
         } else {
-          return res.status(404).json({ message: 'User not found' });
+          return res
+            .status(USER_NOT_FOUND.statusCode)
+            .json(USER_NOT_FOUND.body);
         }
       } catch (error) {
         return next(error);
@@ -87,7 +92,9 @@ const users = (app: Router) => {
         if (user) {
           return res.status(204).json({ message: 'User successfully deleted' });
         } else {
-          return res.status(404).json({ message: 'User not found' });
+          return res
+            .status(USER_NOT_FOUND.statusCode)
+            .json(USER_NOT_FOUND.body);
         }
       } catch (error) {
         return next(error);
