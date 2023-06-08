@@ -46,7 +46,7 @@ export class InMemoryDatabase {
     const index = this.findIndexById(id);
     if (index !== -1) {
       const result = this.database.splice(index, 1);
-      return result;
+      return id;
     } else {
       return;
     }

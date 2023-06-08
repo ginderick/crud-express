@@ -21,7 +21,7 @@ export default class UsersService {
     return user;
   }
 
-  public async updateUser(id: number, data: any) {
+  public async updateUser(id: number, data: User) {
     const database = InMemoryDatabase.getInstance();
     const user = await database.update(id, data);
     return user;
@@ -29,7 +29,7 @@ export default class UsersService {
 
   public async deleteUser(id: number) {
     const database = InMemoryDatabase.getInstance();
-    const user = await database.delete(id);
-    return user;
+    const userId = await database.delete(id);
+    return userId;
   }
 }

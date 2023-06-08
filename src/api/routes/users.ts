@@ -87,8 +87,8 @@ const users = (app: Router) => {
       try {
         const id = +req.params.id!;
         const usersService = Container.get(UsersService);
-        const user = await usersService.deleteUser(id);
-        if (user) {
+        const userId = await usersService.deleteUser(id);
+        if (userId) {
           return res.status(204).json({ message: 'User successfully deleted' });
         } else {
           return res
