@@ -1,6 +1,8 @@
+import { Service } from 'typedi';
 import { InMemoryDatabase } from '../database';
 import { User } from '../types';
 
+@Service()
 export default class UsersService {
   public async getUsers() {
     const database = InMemoryDatabase.getInstance();
