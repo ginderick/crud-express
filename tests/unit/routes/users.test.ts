@@ -1,11 +1,11 @@
 import express from 'express';
 import 'reflect-metadata';
 import request from 'supertest';
-import { seeder } from '../../seeder';
+import { clearData, seeder } from '../../seeder';
 import { user } from '../../utils/utils';
 
 let server;
-beforeEach(async () => {
+beforeAll(async () => {
   const app = express();
   await require('../../../src/loaders').default({ expressApp: app });
   server = app.listen(0);
@@ -14,7 +14,8 @@ beforeEach(async () => {
   await seeder();
 });
 
-afterEach(async () => {
+afterAll(async () => {
+  await clearData();
   await server.close();
 });
 
@@ -25,10 +26,15 @@ describe('GET /users', () => {
   });
 });
 
-describe('GET /user', () => {
+describe('GET /users/:id', () => {
   it('should return status code 200 for successfully a user', async () => {
-    const res = await request(server).get('/users/1');
+    const res = await request(server).get('/users/2');
     expect(res.status).toBe(200);
+  });
+  it('should return status 404 when user is not found', async () => {
+    const res = await request(server).get('/users/3');
+
+    expect(res.status).toBe(404);
   });
 });
 
