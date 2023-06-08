@@ -1,3 +1,5 @@
+import { AnyZodObject } from 'zod';
+
 export type User = {
   name: string;
   age: number;
@@ -9,4 +11,10 @@ export type UserDatabase = {
   name: string;
   age: number;
   email: string;
+};
+
+export type RequestValidator = {
+  params?: AnyZodObject;
+  body?: AnyZodObject;
+  query?: AnyZodObject;
 };
