@@ -13,8 +13,21 @@ export default class UsersService {
     return userResult;
   }
 
-  public async getUser() {
+  public async getUser(id: number) {
     const database = InMemoryDatabase.getInstance();
-    return database.getUser('Gin Derick');
+    const user = await database.getUser(id);
+    return user;
+  }
+
+  public async updateUser(id: number, data: any) {
+    const database = InMemoryDatabase.getInstance();
+    const user = await database.update(id, data);
+    return user;
+  }
+
+  public async deleteUser(id: number) {
+    const database = InMemoryDatabase.getInstance();
+    const user = await database.delete(id);
+    return user;
   }
 }

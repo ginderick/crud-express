@@ -21,8 +21,8 @@ export class InMemoryDatabase {
     return this.database;
   }
 
-  public async getUser(name: string) {
-    const user = this.findEntryByName(name);
+  public async getUser(id: number) {
+    const user = this.findEntryById(id);
     return user;
   }
 
@@ -32,29 +32,32 @@ export class InMemoryDatabase {
     return user;
   }
 
-  public update(id: number, user: User): void {
+  public async update(id: number, user: User) {
     const index = this.findIndexById(id);
-    if (index) {
+
+    if (index !== -1) {
       this.database[index] = { id, ...user };
-    } else {
-      throw new Error(`Entry with ID '${id}' does not exist in the database.`);
+      return this.database[index];
     }
+    return;
   }
 
-  public delete(id: number): void {
+  public async delete(id: number) {
     const index = this.findIndexById(id);
     if (index !== -1) {
-      this.database.splice(index, 1);
+      const result = this.database.splice(index, 1);
+      return result;
     } else {
-      throw new Error(`Entry with ID '${id}' does not exist in the database.`);
+      return;
     }
-  }
-
-  private findEntryByName(name: string): UserDatabase | undefined {
-    return this.database.find((user) => user.name === name);
   }
 
   private findIndexById(id: number): number {
     return this.database.findIndex((entry) => entry.id === id);
+  }
+
+  private findEntryById(id: number): UserDatabase | undefined {
+    const result = this.database.find((user) => user.id === id);
+    return result;
   }
 }
