@@ -1,10 +1,11 @@
 import express from 'express';
 import 'reflect-metadata';
+import config from './config';
 
 async function startServer() {
   const app = express();
 
-  const port = 8000;
+  const port = config.port;
 
   await require('./loaders').default({ expressApp: app });
 
