@@ -15,7 +15,9 @@ const users = (app: Router) => {
       const usersService = Container.get(UsersService);
       const users = await usersService.getUsers();
       return res.status(200).json(users);
-    } catch (error) {}
+    } catch (error) {
+      return next(error);
+    }
   });
 
   route.post(
@@ -31,7 +33,9 @@ const users = (app: Router) => {
         return res
           .status(201)
           .json({ message: 'User has been successfully added' });
-      } catch (error) {}
+      } catch (error) {
+        return next(error);
+      }
     }
   );
 
@@ -46,7 +50,9 @@ const users = (app: Router) => {
       } else {
         return res.status(404).json({ message: 'User not found' });
       }
-    } catch (error) {}
+    } catch (error) {
+      return next(error);
+    }
   });
 
   route.patch(
@@ -65,7 +71,9 @@ const users = (app: Router) => {
         } else {
           return res.status(404).json({ message: 'User not found' });
         }
-      } catch (error) {}
+      } catch (error) {
+        return next(error);
+      }
     }
   );
 
@@ -81,7 +89,9 @@ const users = (app: Router) => {
         } else {
           return res.status(404).json({ message: 'User not found' });
         }
-      } catch (error) {}
+      } catch (error) {
+        return next(error);
+      }
     }
   );
 };
