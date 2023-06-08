@@ -1,31 +1,20 @@
+import { InMemoryDatabase } from '../database';
+import { User } from '../types';
+
 export default class UsersService {
-  private usersList: string[];
-
-  constructor() {
-    this.usersList = [
-      'Harper Sullivan',
-      'Leo Thompson',
-      'Ava Reynolds',
-      'Owen Mitchell',
-      'Stella Foster',
-      'Caleb Hayes',
-      'Ruby Porter',
-      'Isaac Morgan',
-      'Grace Ramirez',
-      'Elijah Cooper',
-      'Mia Peterson',
-      'Ethan Brooks',
-      'Olivia Price',
-      'Noah Campbell',
-      'Sophia Turner',
-    ];
-  }
   public async getUsers() {
-    return this.usersList;
+    const database = InMemoryDatabase.getInstance();
+    return database.getAll();
   }
 
-  public async addUser(user: string) {
-    this.usersList.push(user);
-    return;
+  public async addUser(user: User) {
+    const database = InMemoryDatabase.getInstance();
+    const userResult = await database.create(user);
+    return userResult;
+  }
+
+  public async getUser() {
+    const database = InMemoryDatabase.getInstance();
+    return database.getUser('Gin Derick');
   }
 }
