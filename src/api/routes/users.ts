@@ -69,7 +69,6 @@ const users = (app: Router) => {
         const user = await usersService.updateUser(id, userBody);
         if (user) {
           const result = res.status(200).json(user);
-          console.log(result);
           return result;
         } else {
           return res
@@ -88,8 +87,8 @@ const users = (app: Router) => {
       try {
         const id = +req.params.id!;
         const usersService = Container.get(UsersService);
-        const user = await usersService.deleteUser(id);
-        if (user) {
+        const userId = await usersService.deleteUser(id);
+        if (userId) {
           return res.status(204).json({ message: 'User successfully deleted' });
         } else {
           return res
