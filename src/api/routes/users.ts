@@ -26,6 +26,19 @@ const users = (app: Router) => {
         .json({ message: 'User has been successfully added' });
     } catch (error) {}
   });
+
+  route.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = +req.params.id!;
+      const user = await usersService.getUser(id);
+
+      if (user) {
+        return res.status(200).json(user);
+      } else {
+        return res.status(404).json({ message: 'User not found' });
+      }
+    } catch (error) {}
+  });
 };
 
 export default users;
