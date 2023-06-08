@@ -26,6 +26,8 @@
     "typescript": "^5.1.3"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "reflect-metadata": "^0.1.13",
+    "typedi": "^0.10.0"
   }
 }
