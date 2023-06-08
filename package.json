@@ -29,6 +29,7 @@
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "reflect-metadata": "^0.1.13",
-    "typedi": "^0.10.0"
+    "typedi": "^0.10.0",
+    "zod": "^3.21.4"
   }
 }

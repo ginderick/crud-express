@@ -1,7 +1,9 @@
-import UsersService from '../../services/users';
 import { NextFunction, Request, Response, Router } from 'express';
-import { User } from '../../types';
 import Container from 'typedi';
+import { UserSchema } from '../../schema/UserScehma';
+import UsersService from '../../services/users';
+import { User } from '../../types';
+import middlewares from '../middlewares';
 
 const route = Router();
 
@@ -16,16 +18,22 @@ const users = (app: Router) => {
     } catch (error) {}
   });
 
-  route.post('/', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const user = req.body as User;
-      const usersService = Container.get(UsersService);
-      await usersService.addUser(user);
-      return res
-        .status(201)
-        .json({ message: 'User has been successfully added' });
-    } catch (error) {}
-  });
+  route.post(
+    '/',
+    middlewares.requestValidator({
+      body: UserSchema,
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const user = req.body as User;
+        const usersService = Container.get(UsersService);
+        await usersService.addUser(user);
+        return res
+          .status(201)
+          .json({ message: 'User has been successfully added' });
+      } catch (error) {}
+    }
+  );
 
   route.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -43,6 +51,9 @@ const users = (app: Router) => {
 
   route.patch(
     '/:id',
+    middlewares.requestValidator({
+      body: UserSchema,
+    }),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const id = +req.params.id!;
