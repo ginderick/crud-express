@@ -19,8 +19,7 @@ const users = (app: Router) => {
 
   route.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log(req.body);
-      const user = req.body.user as User;
+      const user = req.body as User;
       await usersService.addUser(user);
       return res
         .status(201)
